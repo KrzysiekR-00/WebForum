@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebForum.Data;
 using WebForum.Models;
@@ -22,7 +17,7 @@ namespace WebForum.Controllers
         // GET: Topics
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Topics.ToListAsync());
+            return View(await _context.Topics.Include(t => t.Posts).ToListAsync());
         }
 
         // GET: Topics/Details/5
