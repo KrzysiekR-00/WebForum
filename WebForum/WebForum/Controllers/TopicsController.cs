@@ -29,6 +29,7 @@ namespace WebForum.Controllers
             }
 
             var topic = await _context.Topics
+                .Include(t => t.Posts)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (topic == null)
             {
