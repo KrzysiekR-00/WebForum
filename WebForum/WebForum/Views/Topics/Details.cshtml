@@ -1,27 +1,14 @@
 ﻿@model WebForum.Models.Topic
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Title;
 }
 
-<h1>Details</h1>
+<h1>@Model.Title</h1>
 
-<div>
-    <h4>Topic</h4>
+@foreach (var item in Model.Posts.OrderBy(i => i.DateTime)) 
+{
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-    </dl>
-</div>
-@foreach (var item in Model.Posts.OrderBy(i => i.DateTime)) {
     <partial name="~/Views/Posts/Details.cshtml" model="@item" />
 }
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<hr />
