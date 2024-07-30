@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<WebForum.Models.Topic>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Topics";
 }
 
-<h1>Index</h1>
+<h1>Topics</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -24,14 +24,15 @@
             <th>
                 Last post
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.OrderByDescending(i => i.Posts.Last().DateTime)) {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        @item.Title
+                    </a>
                 </td>
                 <td>
                     @item.Posts.First().Author
@@ -41,11 +42,6 @@
                 </td>
                 <td>
                     @item.Posts.Last().DateTime
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }

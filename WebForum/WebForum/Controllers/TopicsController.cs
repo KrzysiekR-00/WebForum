@@ -72,7 +72,7 @@ namespace WebForum.Controllers
                 _context.Add(firstPost);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = topic.Id });
             }
             return View(newTopicViewModel);
         }
