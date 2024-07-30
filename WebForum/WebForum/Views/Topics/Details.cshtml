@@ -12,3 +12,5 @@
     <partial name="~/Views/Posts/Details.cshtml" model="@item" />
 }
 <hr />
+
+<partial name="~/Views/Posts/Create.cshtml" model="@new WebForum.ViewModels.NewPostViewModel() { TopicId = Model.Id }" />

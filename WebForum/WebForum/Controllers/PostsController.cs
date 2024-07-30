@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebForum.Data;
 using WebForum.Models;
+using WebForum.ViewModels;
 
 namespace WebForum.Controllers
 {
@@ -44,7 +45,7 @@ namespace WebForum.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
-            ViewData["TopicId"] = new SelectList(_context.Topics, "Id", "Id");
+            //ViewData["TopicId"] = new SelectList(_context.Topics, "Id", "Id");
             return View();
         }
 
@@ -53,16 +54,29 @@ namespace WebForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Content,DateTime,Author,TopicId")] Post post)
+        public async Task<IActionResult> Create([Bind("Author,Content,TopicId")] NewPostViewModel newPostViewModel)
         {
             if (ModelState.IsValid)
             {
+                var post = new Post()
+                {
+                    Author = newPostViewModel.Author,
+                    Content = newPostViewModel.Content,
+                    DateTime = DateTime.Now,
+                    TopicId = newPostViewModel.TopicId
+                };
                 _context.Add(post);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(
+                    nameof(TopicsController.Details),
+                    "Topics",
+                    new { id = newPostViewModel.TopicId }
+                    );
             }
-            ViewData["TopicId"] = new SelectList(_context.Topics, "Id", "Id", post.TopicId);
-            return View(post);
+            //ViewData["TopicId"] = new SelectList(_context.Topics, "Id", "Id", post.TopicId);
+            return View(newPostViewModel);
         }
 
         // GET: Posts/Edit/5
