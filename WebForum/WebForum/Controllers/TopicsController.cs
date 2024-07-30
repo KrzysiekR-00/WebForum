@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebForum.Data;
 using WebForum.Models;
+using WebForum.ViewModels;
 
 namespace WebForum.Controllers
 {
@@ -50,15 +51,30 @@ namespace WebForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title")] Topic topic)
+        public async Task<IActionResult> Create([Bind("Author,Title,Content")] NewTopicViewModel newTopicViewModel)
         {
             if (ModelState.IsValid)
             {
+                Topic topic = new()
+                {
+                    Title = newTopicViewModel.Title
+                };
                 _context.Add(topic);
                 await _context.SaveChangesAsync();
+
+                Post firstPost = new()
+                {
+                    Author = newTopicViewModel.Author,
+                    Content = newTopicViewModel.Content,
+                    DateTime = DateTime.Now,
+                    TopicId = topic.Id
+                };
+                _context.Add(firstPost);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(topic);
+            return View(newTopicViewModel);
         }
 
         // GET: Topics/Edit/5
