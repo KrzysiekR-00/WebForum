@@ -16,9 +16,18 @@ namespace WebForum.Controllers
         }
 
         // GET: Topics
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Topics.Include(t => t.Posts).ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+
+            IQueryable<Topic> topicsToShow = _context.Topics.Include(t => t.Posts);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                topicsToShow = topicsToShow.Where(t => t.Title.Contains(searchString));
+            }
+
+            return View(await topicsToShow.ToListAsync());
         }
 
         // GET: Topics/Details/5
