@@ -16,9 +16,9 @@ namespace WebForum.Controllers
         }
 
         // GET: Topics
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, int? pageNumber)
         {
-            ViewData["CurrentFilter"] = searchString;
+            ViewData["SearchString"] = searchString;
 
             IQueryable<Topic> topicsToShow = _context.Topics.Include(t => t.Posts);
 
@@ -30,7 +30,8 @@ namespace WebForum.Controllers
                 );
             }
 
-            return View(await topicsToShow.ToListAsync());
+            int pageSize = 10;
+            return View(await PaginatedList<Topic>.CreateAsync(topicsToShow.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Topics/Details/5
