@@ -39,7 +39,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.OrderByDescending(i => i.Posts.Last().DateTime)) {
+        @foreach (var item in Model) {
             <tr>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">
@@ -66,7 +66,7 @@
 }
 
 Page @Model.PageIndex of @Model.TotalPages
-</br>
+<br/>
 <a asp-action="Index"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
    asp-route-searchString="@ViewData["SearchString"]"

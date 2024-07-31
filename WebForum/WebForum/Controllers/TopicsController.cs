@@ -30,8 +30,10 @@ namespace WebForum.Controllers
                 );
             }
 
+            topicsToShow = topicsToShow.OrderByDescending(i => i.Posts.OrderBy(p => p.DateTime).Last().DateTime).AsNoTracking();
+
             int pageSize = 10;
-            return View(await PaginatedList<Topic>.CreateAsync(topicsToShow.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View(await PaginatedList<Topic>.CreateAsync(topicsToShow, pageNumber ?? 1, pageSize));
         }
 
         // GET: Topics/Details/5
