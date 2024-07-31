@@ -24,7 +24,10 @@ namespace WebForum.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                topicsToShow = topicsToShow.Where(t => t.Title.Contains(searchString));
+                topicsToShow = topicsToShow.Where(t =>
+                    t.Title.Contains(searchString) ||
+                    t.Posts.First().Author.Contains(searchString)
+                );
             }
 
             return View(await topicsToShow.ToListAsync());
