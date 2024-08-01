@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebForum.Data;
@@ -10,10 +11,12 @@ namespace WebForum.Controllers
     public class PostsController : Controller
     {
         private readonly WebForumContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PostsController(WebForumContext context)
+        public PostsController(WebForumContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Posts
@@ -54,13 +57,13 @@ namespace WebForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Author,Content,TopicId")] NewPostViewModel newPostViewModel)
+        public async Task<IActionResult> Create([Bind("Content,TopicId")] NewPostViewModel newPostViewModel)
         {
             if (ModelState.IsValid)
             {
                 var post = new Post()
                 {
-                    Author = newPostViewModel.Author,
+                    AuthorId = _userManager.GetUserId(User),
                     Content = newPostViewModel.Content,
                     DateTime = DateTime.Now,
                     TopicId = newPostViewModel.TopicId

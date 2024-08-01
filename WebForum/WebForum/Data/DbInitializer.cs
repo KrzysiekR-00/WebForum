@@ -1,22 +1,40 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WebForum.Models;
 
 namespace WebForum.Data;
 
 public static class DbInitializer
 {
-    public static void Initialize(IServiceProvider serviceProvider)
+    public static async Task Initialize(IServiceProvider serviceProvider)
     {
         using var context = new WebForumContext(serviceProvider.GetRequiredService<DbContextOptions<WebForumContext>>());
 
         context.Database.EnsureCreated();
 
-        if (context.Topics.Any() || context.Posts.Any())
+        if (context.Topics.Any() ||
+            context.Posts.Any() ||
+            context.Users.Any())
         {
             return;
         }
 
-        int numberOfTopics = 45;
+        var userManager = (UserManager<ApplicationUser>)serviceProvider.GetService(typeof(UserManager<ApplicationUser>))!;
+
+        int numberOfUsers = 3;
+        ApplicationUser[] users = new ApplicationUser[numberOfUsers];
+        for (int i = 0; i < numberOfUsers; i++)
+        {
+            users[i] = new ApplicationUser
+            {
+                UserName = "user" + (i + 1),
+                Login = "user" + (i + 1)
+            };
+            var result = await userManager.CreateAsync(users[i], "11111111");
+        }
+        context.SaveChanges();
+
+        int numberOfTopics = 25;
         Topic[] topics = new Topic[numberOfTopics];
         for (int i = 0; i < numberOfTopics; i++)
         {
@@ -25,19 +43,18 @@ public static class DbInitializer
         context.Topics.AddRange(topics);
         context.SaveChanges();
 
-        int postsPerTopic = 3;
-        Post[] posts = new Post[numberOfTopics * postsPerTopic];
+        Post[] posts = new Post[numberOfTopics * numberOfUsers];
         var postDateTime = DateTime.Parse("01-01-2020 10:00:00");
         int postIndex = 0;
         for (int i = 0; i < numberOfTopics; i++)
         {
-            for (int j = 0; j < postsPerTopic; j++)
+            for (int j = 0; j < numberOfUsers; j++)
             {
                 posts[postIndex] = new Post()
                 {
                     TopicId = topics[i].Id,
                     DateTime = postDateTime,
-                    Author = "User " + (j + 1),
+                    AuthorId = users[j].Id,
                     Content = "Content"
                 };
 

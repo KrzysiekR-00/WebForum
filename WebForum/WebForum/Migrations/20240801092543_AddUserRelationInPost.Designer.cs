@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebForum.Data;
 
@@ -11,9 +12,11 @@ using WebForum.Data;
 namespace WebForum.Migrations
 {
     [DbContext(typeof(WebForumContext))]
-    partial class WebForumContextModelSnapshot : ModelSnapshot
+    [Migration("20240801092543_AddUserRelationInPost")]
+    partial class AddUserRelationInPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

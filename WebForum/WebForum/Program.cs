@@ -31,7 +31,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    DbInitializer.Initialize(services);
+    await DbInitializer.Initialize(services);
 }
 
 // Configure the HTTP request pipeline.

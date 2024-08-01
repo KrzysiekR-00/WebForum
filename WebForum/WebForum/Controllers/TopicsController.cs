@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebForum.Data;
 using WebForum.Models;
@@ -9,10 +10,12 @@ namespace WebForum.Controllers
     public class TopicsController : Controller
     {
         private readonly WebForumContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TopicsController(WebForumContext context)
+        public TopicsController(WebForumContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Topics
@@ -20,13 +23,15 @@ namespace WebForum.Controllers
         {
             ViewData["SearchString"] = searchString;
 
-            IQueryable<Topic> topicsToShow = _context.Topics.Include(t => t.Posts);
+            IQueryable<Topic> topicsToShow = _context.Topics
+                .Include(t => t.Posts)
+                .ThenInclude(p => p.Author);
 
             if (!string.IsNullOrEmpty(searchString))
             {
                 topicsToShow = topicsToShow.Where(t =>
                     t.Title.Contains(searchString) ||
-                    t.Posts.First().Author.Contains(searchString)
+                    t.Posts.First().Author.Login.Contains(searchString)
                 );
             }
 
@@ -46,6 +51,7 @@ namespace WebForum.Controllers
 
             var topic = await _context.Topics
                 .Include(t => t.Posts)
+                .ThenInclude(p => p.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (topic == null)
             {
@@ -66,7 +72,7 @@ namespace WebForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Author,Title,Content")] NewTopicViewModel newTopicViewModel)
+        public async Task<IActionResult> Create([Bind("Title,Content")] NewTopicViewModel newTopicViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +85,7 @@ namespace WebForum.Controllers
 
                 Post firstPost = new()
                 {
-                    Author = newTopicViewModel.Author,
+                    AuthorId = _userManager.GetUserId(User),
                     Content = newTopicViewModel.Content,
                     DateTime = DateTime.Now,
                     TopicId = topic.Id
