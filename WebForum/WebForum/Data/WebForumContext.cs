@@ -4,7 +4,7 @@ using WebForum.Models;
 
 namespace WebForum.Data;
 
-public class WebForumContext : IdentityDbContext
+public class WebForumContext : IdentityDbContext<ApplicationUser>
 {
     public WebForumContext(DbContextOptions<WebForumContext> options) : base(options)
     {
