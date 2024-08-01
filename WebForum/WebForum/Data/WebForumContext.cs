@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebForum.Models;
 
 namespace WebForum.Data;
 
-public class WebForumContext : DbContext
+public class WebForumContext : IdentityDbContext
 {
     public WebForumContext(DbContextOptions<WebForumContext> options) : base(options)
     {
