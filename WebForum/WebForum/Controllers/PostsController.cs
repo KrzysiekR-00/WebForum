@@ -77,14 +77,12 @@ namespace WebForum.Controllers
                 _context.Add(post);
                 await _context.SaveChangesAsync();
 
-                //return RedirectToAction(nameof(Index));
                 return RedirectToAction(
                     nameof(TopicsController.Details),
                     "Topics",
                     new { id = newPostViewModel.TopicId }
                     );
             }
-            //ViewData["TopicId"] = new SelectList(_context.Topics, "Id", "Id", post.TopicId);
             return View(newPostViewModel);
         }
     }
