@@ -74,7 +74,13 @@ namespace WebForum.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Content")] NewTopicViewModel newTopicViewModel)
         {
-            if (ModelState.IsValid)
+            string? userId = null;
+            if (User?.Identity?.IsAuthenticated == true)
+            {
+                userId = _userManager.GetUserId(User);
+            }
+
+            if (ModelState.IsValid && !string.IsNullOrEmpty(userId))
             {
                 Topic topic = new()
                 {
@@ -85,7 +91,7 @@ namespace WebForum.Controllers
 
                 Post firstPost = new()
                 {
-                    AuthorId = _userManager.GetUserId(User),
+                    AuthorId = userId,
                     Content = newTopicViewModel.Content,
                     DateTime = DateTime.Now,
                     TopicId = topic.Id
