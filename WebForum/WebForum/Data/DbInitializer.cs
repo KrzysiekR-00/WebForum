@@ -55,7 +55,7 @@ public static class DbInitializer
                     TopicId = topics[i].Id,
                     DateTime = postDateTime,
                     AuthorId = users[j].Id,
-                    Content = "Content"
+                    Content = "Content" + Environment.NewLine + "Second line"
                 };
 
                 postDateTime = postDateTime.AddMinutes(10);

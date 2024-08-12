@@ -7,6 +7,7 @@ public class Post
     public int Id { get; set; }
     public DateTime DateTime { get; set; }
     [StringLength(128)]
+    [DataType(DataType.MultilineText)]
     public string Content { get; set; } = null!;
 
     public int TopicId { get; set; }
