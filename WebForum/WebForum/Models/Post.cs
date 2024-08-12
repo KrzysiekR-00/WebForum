@@ -1,9 +1,12 @@
-﻿namespace WebForum.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebForum.Models;
 
 public class Post
 {
     public int Id { get; set; }
     public DateTime DateTime { get; set; }
+    [StringLength(128)]
     public string Content { get; set; } = null!;
 
     public int TopicId { get; set; }
