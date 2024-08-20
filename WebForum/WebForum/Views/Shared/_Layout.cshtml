@@ -23,7 +23,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Topics" asp-action="Index">Topics</a>
                         </li>
                         <li class="nav-item ml-md-auto">
-                            <a href="#" class="btn btn-primary switch">Switch Light/Dark</a>
+                            <a href="#" class="btn btn-primary switch" onclick="toggleDarkMode()">Toggle dark mode</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -42,17 +42,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
-
-    <script>
-        $(document).ready(function () {
-            $('.switch').click(() => {
-                $('.text-light, .text-dark').toggleClass('text-light text-dark');
-                $('.navbar-light, .navbar-dark').toggleClass('navbar-light navbar-dark');
-                $('.bg-white, .bg-dark').toggleClass('bg-white bg-dark');
-                $('.table-light, .table-dark').toggleClass('table-light table-dark');
-            })
-        });
-    </script>
 
 </body>
 </html>
