@@ -11,7 +11,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
-                <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+                <textarea asp-for="Content" class="form-control text-dark bg-white" rows="5"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="TopicId" value="@Model.TopicId">
