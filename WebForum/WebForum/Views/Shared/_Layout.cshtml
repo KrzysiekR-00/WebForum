@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebForum.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="bg-white">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -22,6 +22,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Topics" asp-action="Index">Topics</a>
                         </li>
+                        <li class="nav-item ml-md-auto">
+                            <a href="#" class="btn btn-primary switch">Switch Light/Dark</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -29,7 +32,7 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 bg-white text-dark">
             @RenderBody()
         </main>
     </div>
@@ -37,6 +40,19 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            $('.switch').click(() => {
+                $('.text-light, .text-dark').toggleClass('text-light text-dark');
+                $('.navbar-light, .navbar-dark').toggleClass('navbar-light navbar-dark');
+                $('.bg-white, .bg-dark').toggleClass('bg-white bg-dark');
+                $('.table-light, .table-dark').toggleClass('table-light table-dark');
+            })
+        });
+    </script>
+
 </body>
 </html>
