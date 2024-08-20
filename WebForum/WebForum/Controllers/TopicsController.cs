@@ -38,7 +38,7 @@ namespace WebForum.Controllers
 
             topicsToShow = topicsToShow.OrderByDescending(i => i.Posts.OrderBy(p => p.DateTime).Last().DateTime).AsNoTracking();
 
-            int pageSize = 10;
+            int pageSize = 7;
             return View(await PaginatedList<Topic>.CreateAsync(topicsToShow, pageNumber ?? 1, pageSize));
         }
 

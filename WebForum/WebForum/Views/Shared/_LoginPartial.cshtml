@@ -3,7 +3,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav text-center d-flex justify-content-center align-items-center">
+<ul class="navbar-nav text-center d-flex justify-content-center align-items-center text-dark">
 @if (SignInManager.IsSignedIn(User))
 {
     @UserManager.GetUserName(User)
