@@ -3,6 +3,8 @@
 
 // Write your JavaScript code.
 
+const darkModeCookieName = "darkMode";
+
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -27,7 +29,7 @@ function getCookie(cname) {
 }
 
 function loadDarkModeSettings() {
-    let darkMode = getCookie("darkMode");
+    let darkMode = getCookie(darkModeCookieName);
     if (darkMode == "true") {
         toggleDarkMode();
     }
@@ -43,10 +45,10 @@ function toggleDarkMode() {
 function toggleDarkModeAndSave() {
     toggleDarkMode();
 
-    let darkMode = getCookie("darkMode");
+    let darkMode = getCookie(darkModeCookieName);
     if (darkMode == "true") {
-        setCookie("darkMode", "false", 365);
+        setCookie(darkModeCookieName, "false", 365);
     } else {
-        setCookie("darkMode", "true", 365);
+        setCookie(darkModeCookieName, "true", 365);
     }
 }
