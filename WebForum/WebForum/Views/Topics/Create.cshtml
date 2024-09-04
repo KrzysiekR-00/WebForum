@@ -13,14 +13,14 @@
             <div class="form-group">
                 <div class="mb-3">
                     <div class="form-floating">
-                        <input asp-for="Title" class="form-control text-dark bg-white" placeholder="Title" />
+                        <input asp-for="Title" class="form-control text-dark bg-white" placeholder="Title" required/>
                         <label asp-for="Title" class="control-label"></label>
                     </div>
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <div class="form-floating">
-                        <textarea asp-for="Content" class="form-control text-dark bg-white" style="height: 100px" placeholder="Content"></textarea>
+                        <textarea asp-for="Content" class="form-control text-dark bg-white" style="height: 100px" placeholder="Content" required></textarea>
                         <label asp-for="Content" class="control-label"></label>
                     </div>
                     <span asp-validation-for="Content" class="text-danger"></span>
