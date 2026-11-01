@@ -102,7 +102,7 @@ namespace WebForum.Controllers
                 {
                     AuthorId = userId,
                     Content = newTopicViewModel.Content,
-                    DateTime = DateTime.Now,
+                    DateTime = DateTime.UtcNow,
                     TopicId = topic.Id
                 };
                 _context.Add(firstPost);

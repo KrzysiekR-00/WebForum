@@ -71,7 +71,7 @@ namespace WebForum.Controllers
                 {
                     AuthorId = userId,
                     Content = newPostViewModel.Content,
-                    DateTime = DateTime.Now,
+                    DateTime = DateTime.UtcNow,
                     TopicId = newPostViewModel.TopicId
                 };
                 _context.Add(post);
